@@ -1,0 +1,133 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/arena.gd" id="1_arena"]
+[ext_resource type="Script" path="res://scripts/agente.gd" id="2_agente"]
+[ext_resource type="Script" path="res://scripts/controlador.gd" id="3_controlador"]
+
+[sub_resource type="StandardMaterial3D" id="Material_chao"]
+albedo_color = Color(0.93, 0.91, 0.84, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_parede"]
+albedo_color = Color(0.55, 0.58, 0.38, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_agente"]
+albedo_color = Color(0.95, 0.66, 0.72, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_nariz"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_alvo"]
+albedo_color = Color(1, 0.82, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.75, 0.2, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="BoxShape3D" id="Forma_chao"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxMesh" id="Malha_chao"]
+material = SubResource("Material_chao")
+size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxShape3D" id="Forma_parede_x"]
+size = Vector3(22, 2, 1)
+
+[sub_resource type="BoxMesh" id="Malha_parede_x"]
+material = SubResource("Material_parede")
+size = Vector3(22, 2, 1)
+
+[sub_resource type="BoxShape3D" id="Forma_parede_z"]
+size = Vector3(1, 2, 22)
+
+[sub_resource type="BoxMesh" id="Malha_parede_z"]
+material = SubResource("Material_parede")
+size = Vector3(1, 2, 22)
+
+[sub_resource type="CapsuleShape3D" id="Forma_agente"]
+radius = 0.5
+height = 2.0
+
+[sub_resource type="CapsuleMesh" id="Malha_agente"]
+material = SubResource("Material_agente")
+radius = 0.5
+height = 2.0
+
+[sub_resource type="BoxMesh" id="Malha_nariz"]
+material = SubResource("Material_nariz")
+size = Vector3(0.3, 0.2, 0.3)
+
+[sub_resource type="SphereMesh" id="Malha_alvo"]
+material = SubResource("Material_alvo")
+radius = 0.6
+height = 1.2
+
+[node name="Arena" type="Node3D"]
+script = ExtResource("1_arena")
+
+[node name="Chao" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Forma" type="CollisionShape3D" parent="Chao"]
+shape = SubResource("Forma_chao")
+
+[node name="Malha" type="MeshInstance3D" parent="Chao"]
+mesh = SubResource("Malha_chao")
+
+[node name="ParedeNorte" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -10.5)
+
+[node name="Forma" type="CollisionShape3D" parent="ParedeNorte"]
+shape = SubResource("Forma_parede_x")
+
+[node name="Malha" type="MeshInstance3D" parent="ParedeNorte"]
+mesh = SubResource("Malha_parede_x")
+
+[node name="ParedeSul" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 10.5)
+
+[node name="Forma" type="CollisionShape3D" parent="ParedeSul"]
+shape = SubResource("Forma_parede_x")
+
+[node name="Malha" type="MeshInstance3D" parent="ParedeSul"]
+mesh = SubResource("Malha_parede_x")
+
+[node name="ParedeLeste" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 1, 0)
+
+[node name="Forma" type="CollisionShape3D" parent="ParedeLeste"]
+shape = SubResource("Forma_parede_z")
+
+[node name="Malha" type="MeshInstance3D" parent="ParedeLeste"]
+mesh = SubResource("Malha_parede_z")
+
+[node name="ParedeOeste" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 1, 0)
+
+[node name="Forma" type="CollisionShape3D" parent="ParedeOeste"]
+shape = SubResource("Forma_parede_z")
+
+[node name="Malha" type="MeshInstance3D" parent="ParedeOeste"]
+mesh = SubResource("Malha_parede_z")
+
+[node name="Agente" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("2_agente")
+
+[node name="Forma" type="CollisionShape3D" parent="Agente"]
+shape = SubResource("Forma_agente")
+
+[node name="Malha" type="MeshInstance3D" parent="Agente"]
+mesh = SubResource("Malha_agente")
+
+[node name="Nariz" type="MeshInstance3D" parent="Agente"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource("Malha_nariz")
+
+[node name="Controlador" type="Node3D" parent="Agente" groups=["AGENT"]]
+script = ExtResource("3_controlador")
+
+[node name="Alvo" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, 5)
+
+[node name="Malha" type="MeshInstance3D" parent="Alvo"]
+mesh = SubResource("Malha_alvo")

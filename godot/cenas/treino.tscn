@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://cenas/arena.tscn" id="1_arena"]
+[ext_resource type="Script" path="res://addons/godot_rl_agents/sync.gd" id="2_sync"]
+
+[node name="Treino" type="Node3D"]
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("2_sync")
+speed_up = 4.0
+
+[node name="Luz" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 30, 0)
+shadow_enabled = true
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 55, 55)
+current = true
+
+[node name="Arena01" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -36)
+
+[node name="Arena02" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -36)
+
+[node name="Arena03" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -36)
+
+[node name="Arena04" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -36)
+
+[node name="Arena05" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -12)
+
+[node name="Arena06" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -12)
+
+[node name="Arena07" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -12)
+
+[node name="Arena08" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -12)
+
+[node name="Arena09" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 12)
+
+[node name="Arena10" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 12)
+
+[node name="Arena11" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
+
+[node name="Arena12" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 12)
+
+[node name="Arena13" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 36)
+
+[node name="Arena14" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 36)
+
+[node name="Arena15" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 36)
+
+[node name="Arena16" parent="." instance=ExtResource("1_arena")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 36)

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://cenas/arena.tscn" id="1_arena"]
+[ext_resource type="Script" path="res://addons/godot_rl_agents/sync.gd" id="2_sync"]
+
+[node name="Demo" type="Node3D"]
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("2_sync")
+
+[node name="Luz" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 20, 0)
+shadow_enabled = true
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 16, 16)
+current = true
+
+[node name="Arena" parent="." instance=ExtResource("1_arena")]
