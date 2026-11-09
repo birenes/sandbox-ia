@@ -5,8 +5,9 @@ Dois jeitos de rodar:
      conexão, abra cenas/treino.tscn no Godot e aperte F6.
   2. Pelo jogo exportado: passe --jogo com o caminho do executável.
 
-Os checkpoints ficam salvos ao longo do treino. Eles servem para mostrar no
-vídeo o agente no começo (perdido) e no fim (acertando).
+O agente mestre (mestre.py) acompanha todos os episódios e escreve o diário de
+bordo em treinos/<nome>/diario.md, guardando os episódios que fugiram do normal
+para filmar depois. Os checkpoints do modelo também ficam salvos.
 
 Uso: python treino/treinar.py --passos 300000 --nome primeiro
 """
@@ -18,6 +19,8 @@ from godot_rl.wrappers.stable_baselines_wrapper import StableBaselinesGodotEnv
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.vec_env.vec_monitor import VecMonitor
+
+from mestre import criar_callback
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -68,12 +71,15 @@ def main() -> None:
         name_prefix="agente",
     )
 
+    mestre = criar_callback(pasta)
+
     try:
-        modelo.learn(total_timesteps=args.passos, callback=checkpoints, tb_log_name="ppo")
+        modelo.learn(total_timesteps=args.passos, callback=[checkpoints, mestre], tb_log_name="ppo")
     finally:
         modelo.save(pasta / "modelo.zip")
         env.close()
         print(f"Modelo salvo em {pasta / 'modelo.zip'}")
+        print(f"Diário de bordo em {pasta / 'diario.md'} ({mestre.mestre.marcados} episódios marcados)")
 
 
 if __name__ == "__main__":
