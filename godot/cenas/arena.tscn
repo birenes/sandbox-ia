@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/arena.gd" id="1_arena"]
 [ext_resource type="Script" path="res://scripts/agente.gd" id="2_agente"]
 [ext_resource type="Script" path="res://scripts/controlador.gd" id="3_controlador"]
+[ext_resource type="Script" path="res://scripts/gravador.gd" id="4_gravador"]
 
 [sub_resource type="StandardMaterial3D" id="Material_chao"]
 albedo_color = Color(0.93, 0.91, 0.84, 1)
@@ -131,3 +132,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, 5)
 
 [node name="Malha" type="MeshInstance3D" parent="Alvo"]
 mesh = SubResource("Malha_alvo")
+
+[node name="Gravador" type="Node" parent="."]
+script = ExtResource("4_gravador")

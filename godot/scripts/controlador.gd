@@ -25,3 +25,14 @@ func set_action(action) -> void:
 		clampf(action["mover"][0], -1.0, 1.0),
 		clampf(action["mover"][1], -1.0, 1.0)
 	)
+
+
+## Episódios que terminaram desde a última conversa com o Python. O plugin manda
+## isso junto com cada passo, e o mestre (treino/mestre.py) recebe.
+## Os poucos passos antes do treino começar de fato não chegam ao Python, mas
+## nessa hora nenhum episódio terminou ainda.
+func get_info() -> Dictionary:
+	var prontos: Array = arena.gravador.retirar_prontos()
+	if prontos.is_empty():
+		return {}
+	return {"episodios": prontos}
