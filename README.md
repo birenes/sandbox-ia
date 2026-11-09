@@ -16,8 +16,12 @@ godot/                  projeto Godot 4
   scripts/arena.gd      regras do jogo: onde cada um nasce, o que o agente vê, pontuação
   scripts/agente.gd     corpo do agente (movimento)
   scripts/controlador.gd  ligação com o treino (observação, ações, recompensa)
+  scripts/gravador.gd   anota cada episódio (trajetória e eventos)
+  cenas/replay.tscn     reproduz um episódio gravado, com câmera que acompanha
 treino/
   treinar.py            treina com PPO (Stable-Baselines3) e salva checkpoints
+  mestre.py             agente mestre: marca o que foge do normal e escreve o diário
+  filmar.py             filma um episódio gravado (Movie Maker do Godot)
   assistir.py           mostra um modelo salvo jogando
 scripts/
   instalar_plugin.py    baixa o plugin Godot RL Agents para godot/addons
@@ -80,12 +84,52 @@ podem não instalar alguma dependência.
 
 As regras ficam em `godot/scripts/arena.gd`.
 
+## Agente mestre
+
+O mestre acompanha todos os episódios de todas as arenas e decide o que vale virar
+vídeo. Ele não grava imagem: cada arena grava o estado do episódio (posições e
+eventos), o que ocupa pouco espaço e permite filmar depois com a câmera que quiser.
+
+Ele marca três tipos de coisa:
+
+- **Marcos:** primeiro acerto, recorde de tempo, taxa de acerto passando de 10%, 25%,
+  50%, 75% e 90%, piora e recuperação.
+- **Anomalias:** agente saindo da arena (bug de física), parado o episódio inteiro,
+  andando muito e terminando perto de onde começou.
+- **Fora da curva:** pontuação ou número de batidas na parede muito diferente dos
+  episódios recentes. O normal muda ao longo do treino, então a comparação também.
+
+Durante o treino ele roda junto e escreve em `treinos/<nome>/`:
+
+- `diario.md`: o diário de bordo, para ler
+- `diario.jsonl`: o mesmo, para outro programa ler
+- `episodios/`: os episódios marcados, inteiros
+- `episodios/amostra/`: um a cada 50 episódios normais, para comparar começo e fim
+
+Para filmar um episódio guardado:
+
+```
+python treino/filmar.py treinos/primeiro/episodios/000123.json
+python treino/filmar.py treinos/primeiro/episodios/000123.json --resolucao 1080x1920
+```
+
+Uma janela pequena abre, o Godot renderiza quadro a quadro e o vídeo sai em .mp4 ao
+lado do episódio (precisa do ffmpeg para o .mp4; sem ele, sai em .avi).
+
+Também dá para testar sem treino, com um piloto automático que vai no rumo do alvo
+errando um pouco, e rodar o mestre depois:
+
+```
+godot --path godot res://cenas/treino.tscn -- --piloto --gravar_em=C:/caminho/teste
+python treino/mestre.py C:/caminho/teste/episodios.jsonl --saida treinos/teste
+```
+
 ## Próximos passos
 
-- Placar na arena (acertos e episódio) para aparecer no vídeo
-- Câmera que segue o agente
+- Revisão do diário por um modelo de linguagem, sugerindo a ordem do vídeo
+- Câmera do replay enquadrando agente e alvo juntos
+- Replay de vários episódios lado a lado (começo e fim do treino)
 - Sensor de raio e obstáculos, para virar labirinto
-- Comparar checkpoints lado a lado (começo e fim do treino)
 - Exportar o jogo para treinar sem o editor, mais rápido
 - Ambientes novos: pular plataformas, fugir da sala com botão e porta, esconde-esconde
   com dois agentes
