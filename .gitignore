@@ -12,3 +12,7 @@ __pycache__/
 # resultados de treino (modelos, checkpoints, logs)
 treinos/
 godot/override.cfg
+
+# laboratorio: programas e modelos baixados e resultados dos testes
+pesado/
+laboratorio/resultados/
