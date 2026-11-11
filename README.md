@@ -134,6 +134,7 @@ Para treinar: Godot 4, Python 3.10 ou 3.11, `python scripts/instalar_plugin.py`,
 
 ## Licença
 
-MIT, ver `LICENSE`. O plugin [Godot RL Agents](https://github.com/edbeeching/godot_rl_agents_plugin)
-é MIT, os modelos Qwen3.5 são Apache 2.0 e os dois são baixados à parte. O Piper, usado
-só para gerar áudio de teste, é GPL e fica fora do repositório, num ambiente separado.
+Copyright (C) 2026 birenes. GPL v3, ver `LICENSE`. O plugin
+[Godot RL Agents](https://github.com/edbeeching/godot_rl_agents_plugin) é MIT, os modelos
+Qwen3.5 são Apache 2.0 e os dois são baixados à parte. O Piper, usado só para gerar áudio
+de teste, também é GPL e fica fora do repositório, num ambiente separado.
